@@ -1,8 +1,5 @@
 package com.londonappbrewery.destini;
 
-/**
- * Created by danilo on 09/02/18.
- */
 
 public class Story {
     private int mStoryID;
