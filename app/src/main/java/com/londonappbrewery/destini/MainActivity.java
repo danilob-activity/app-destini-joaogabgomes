@@ -6,18 +6,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.Serializable;
+
 public class MainActivity extends AppCompatActivity {
 
 
     TextView mStoryTextView;
     Button mAnswerTop;
     Button mAnswerBottom;
+
     // TODO: Declare as variaveis aqui:
+
     Story mT1 = new Story(R.string.T1_Story);
     Story mT2 = new Story(R.string.T2_Story);
     Story mT3 = new Story(R.string.T3_Story);
     Story mT4 = new Story(R.string.T4_End);
     Story mT5 = new Story(R.string.T5_End);
+    Story mT6 = new Story(R.string.T6_End);
 
     Answer mA1_T1 = new Answer(R.string.T1_Ans1);
     Answer mA2_T1 = new Answer(R.string.T2_Ans1);
@@ -41,14 +46,79 @@ public class MainActivity extends AppCompatActivity {
         mAnswerBottom = findViewById(R.id.buttonBottom);
         mAnswerTop = findViewById(R.id.buttonTop);
 
+        if (savedInstanceState!=null){
+            mStorySelected = (Story) savedInstanceState.getSerializable("StoryKey");
+        }
+
         //TODO:faça o mapeamento da história
         mT1.setAnswerTop(mA1_T1);
         mT1.setAnswerBottom(mA1_T2);
+        mA1_T1.setChildStory(mT3);
+        mA1_T1.setChildStory(mT2);
+
+        mT3.setAnswerBottom(mA3_T1);
+        mT2.setAnswerBottom(mA2_T1);
+        mT3.setAnswerBottom(mA3_T2);
+        mT2.setAnswerBottom(mA2_T2);
+
+        mA2_T1.setChildStory(mT3);
+        mA3_T1.setChildStory(mT6);
+        mA2_T2.setChildStory(mT4);
+        mA3_T2.setChildStory(mT5);
+
+        mT3.setAnswerBottom(mA3_T1);
+        mT3.setAnswerBottom(mA3_T2);
+        mA3_T1.setChildStory(mT6);
+        mA3_T2.setChildStory(mT5);
+
+        mStoryTextView.setText(mStorySelected.getStoryID());
+        mAnswerTop.setText(mStorySelected.getAnswerTop().getAnswerID());
+        mAnswerBottom.setText(mStorySelected.getAnswerBottom().getAnswerID());
 
         // TODO: Coloque o evento do click do botão, caso precise colocar a visibilidade no botão invisivel utilize a função
         // do botão setVisibility(View.GONE):
 
+        mAnswerTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateStory(mStorySelected.getAnswerTop().getChildStory());
+                if (mStorySelected == mT4 || mStorySelected == mT5 || mStorySelected == mT6) {
+                    mAnswerTop.setVisibility(View.GONE);
+                    mAnswerBottom.setVisibility(View.GONE);
+                }else{
+                    mAnswerTop.setText(mStorySelected.getAnswerTop().getAnswerID());
+                    mAnswerBottom.setText(mStorySelected.getAnswerBottom().getAnswerID());
+                }
+            }
+        });
+
+        mAnswerBottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateStory(mStorySelected.getAnswerBottom().getChildStory());
+
+                if (mStorySelected == mT4 || mStorySelected == mT5 || mStorySelected == mT6) {
+                    mAnswerTop.setVisibility(View.GONE);
+                    mAnswerBottom.setVisibility(View.GONE);
+                }else{
+                    mAnswerTop.setText(mStorySelected.getAnswerTop().getAnswerID());
+                    mAnswerBottom.setText(mStorySelected.getAnswerBottom().getAnswerID());
+                }
+            }
+        });
+    }
+        public void updateStory(Story newStory){
+            mStorySelected = newStory;
+
+        }
+
+    protected void onSaveInstanceState (Bundle outState){
+        super.onSaveInstanceState(outState);;
+        outState.putSerializable("StoryKey", (Serializable) mStorySelected);
 
     }
 
-}
+
+    }
+
+
