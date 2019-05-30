@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.londonappbrewery.destini.models.Answer;
+import com.londonappbrewery.destini.models.Story;
+
 import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,11 +28,11 @@ public class MainActivity extends AppCompatActivity {
     Story mT6 = new Story(R.string.T6_End);
 
     Answer mA1_T1 = new Answer(R.string.T1_Ans1);
-    Answer mA2_T1 = new Answer(R.string.T2_Ans1);
+    Answer mA2_T1 = new Answer(R.string.T1_Ans2);
+    Answer mA1_T2 = new Answer(R.string.T2_Ans1);
     Answer mA2_T2 = new Answer(R.string.T2_Ans2);
-    Answer mA1_T2 = new Answer(R.string.T1_Ans2);
-    Answer mA3_T1 = new Answer(R.string.T1_Ans1);
-    Answer mA3_T2 = new Answer(R.string.T1_Ans2);
+    Answer mA1_T3 = new Answer(R.string.T3_Ans1);
+    Answer mA2_T3 = new Answer(R.string.T3_Ans2);
 
     //indice corrente da historia
     private Story mStorySelected;
@@ -54,24 +57,23 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO:faça o mapeamento da história
         mT1.setAnswerTop(mA1_T1);
-        mT1.setAnswerBottom(mA1_T2);
-        mA1_T1.setChildStory(mT3);
-        mA1_T1.setChildStory(mT2);
+        mT1.setAnswerBottom(mA2_T1);
 
-        mT3.setAnswerBottom(mA3_T1);
-        mT2.setAnswerBottom(mA2_T1);
-        mT3.setAnswerBottom(mA3_T2);
+        mA1_T1.setChildStory(mT3);
+        mA2_T1.setChildStory(mT2);
+
+        mT2.setAnswerTop(mA1_T2);
         mT2.setAnswerBottom(mA2_T2);
 
         mA2_T1.setChildStory(mT3);
-        mA3_T1.setChildStory(mT6);
         mA2_T2.setChildStory(mT4);
-        mA3_T2.setChildStory(mT5);
 
-        mT3.setAnswerBottom(mA3_T1);
-        mT3.setAnswerBottom(mA3_T2);
-        mA3_T1.setChildStory(mT6);
-        mA3_T2.setChildStory(mT5);
+        mT3.setAnswerTop(mA1_T3);
+        mT3.setAnswerBottom(mA2_T3);
+
+        mA1_T3.setChildStory(mT6);
+        mA2_T3.setChildStory(mT5);
+
 
         mStoryTextView.setText(mStorySelected.getStoryID());
         mAnswerTop.setText(mStorySelected.getAnswerTop().getAnswerID());
