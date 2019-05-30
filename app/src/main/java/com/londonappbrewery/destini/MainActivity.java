@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState!=null){
             mStorySelected = (Story) savedInstanceState.getSerializable("StoryKey");
+        } else{
+            mStorySelected = mT1;
         }
 
         //TODO:faça o mapeamento da história
